@@ -36,8 +36,8 @@ name = "akka"
 ```
 
 #####Initializing Values and Variables
-
-~~~~~~~~ {lang="scala"}
+{lang="scala"}
+~~~~~~~~ 
 val name : String
 // compilation error. Should be initialized while defining
 
