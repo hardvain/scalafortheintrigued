@@ -36,7 +36,8 @@ name = "akka"
 ```
 
 #####Initializing Values and Variables
-```
+
+~~~~~~~~ {lang="scala"}
 val name : String
 // compilation error. Should be initialized while defining
 
@@ -59,7 +60,7 @@ class Bird{
     val name : String // compilation error. Initialize name or change class to abstract class to fix the compilation error
 }
 
-```
+~~~~~~~~
 
 #####Val/Var in class constructors
 
