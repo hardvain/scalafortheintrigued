@@ -1,3 +1,123 @@
-# Chapter 1 
-Hello, world!
+# Values And Variables
+#####Immutable Values
+```
+val name : String = "scala"
+// creates an immutable reference to the member name. Defined using a val
 
+name = "akka"
+// compilation error. cannot re assign to a val
+
+val name = "akka"
+// compiles successfully since this is a new binding.
+
+val array = Array[Int]()
+//  creates an immutable reference to the member array
+
+array = Array[String]()
+// compilation error. cannot reassign to val
+
+array(0) = 1
+// compiles successfully since the reference is not mutated. In this case, the Array class allows to modify the underlying array instance. Immutability applies to the variable and not to the instance to which the variable refers
+
+// val is equivalent to a final variable in java. Once created, cannot be modified
+// One difference between val in scala and final in java is that java allows to define uninitialized final variable and initialize it in constructor. Scala requires val/var to be initialized during definition
+// Apart from val and var, you can use def to create similar bindings. But use of def has a completely different meaning and performance characteristice. More about that in functions section
+
+```
+
+#####Mutable Variables
+```
+var name = "scala"
+// creates a mutable reference to the member name. Defined using var
+
+name = "akka"
+// compiles successfully.
+
+```
+
+#####Initializing Values and Variables
+```
+val name : String
+// compilation error. Should be initialized while defining
+
+var name : String
+// compilation. Should be initialized while defining
+
+// Initialization can be left if the owner of the val/var is an abstract class or a trait
+abstract class Animal{
+    val name : String
+    var category : String
+}
+
+trait Comparable{
+    val dataType : String
+}
+
+// When initialization is ignored inside a class, a compilation error occurs
+
+class Bird{
+    val name : String // compilation error. Initialize name or change class to abstract class to fix the compilation error
+}
+
+```
+
+#####Val/Var in class constructors
+
+```
+class Person(val name : String, var age : Int)
+// Here the val/var is not initialized because it is part of the constructor parameters. Values must be supplied where an instance of the class is created
+
+val person = new Person()
+// compilation error.
+
+val person = new Person("Aravindh",26)
+// compiles successfully
+
+// In the above two lines, it doesnt matter whether val or var is used for the instance of person.
+
+var person = new Person()
+// compilation error
+```
+
+#####Into the Java land
+
+Lets see how `val` and `var` used in scala gets translated to corresponding java code.
+
+```
+class Person(val name : String, var age : Int)
+
+// Generated java class
+public class Person {
+  public java.lang.String name(); // Only getter is generated. No setter since name is a val
+  public int age(); // Getter is generated because age is public
+  public void age_$eq(int); // Setter is generated because age is var
+  public Person(java.lang.String, int);
+}
+```
+Scala creates only a getter method for `val` and both getter and setter methods for `var`.
+
+
+```
+class Person(val name : String, var age : Int)
+val person = new Person("Aravindh",26)
+
+person.age = 27
+person.age_$eq(27)
+// The above two lines of code does the same thing since assignment to a var in scala translates to <member_name>_$eq() method
+
+person.name // "Aravindh"
+person.name() // Compilation error. This is because of an implicit conversion from a class called StringOps. This will become clear when we read about implicits later
+
+```
+
+#####Initializing Vals and Vars
+```
+val a,b,c = 1
+// sets the value of a,b and c to 1
+
+val (a,b) = (1,2)
+// Assignment can be made easy by using pattern matching. Elements within () is called a tuple. In the above snippet, tuples are matched with the vals using pattern matching
+
+val List(a,b,c) = List(1,2,3)
+// Assigns 1 to a, 2 to b & 3 to c. Though pattern matching helps us assign the values easily here, this method is not recommended. We shall see a better way in pattern matching section
+```
