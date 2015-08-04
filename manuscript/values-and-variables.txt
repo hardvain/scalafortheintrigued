@@ -33,7 +33,6 @@ var name = "scala"
 name = "akka"
 // compiles successfully.
 
-```
 
 #####Initializing Values and Variables
 {lang="scala"}
